@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backend Interview Topics</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --accent: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #a78bfa;
+    --accent4: #34d399;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --heading: #f8fafc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,229,255,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(167,139,250,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 50% 50%, rgba(255,107,53,0.02) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 64px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .header-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.2);
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    color: var(--heading);
+    line-height: 1.05;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  h1 span {
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-sub {
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 400;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Tab navigation */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 48px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    animation: fadeUp 0.6s 0.2s ease both;
+    background: var(--surface);
+  }
+
+  .tab {
+    flex: 1;
+    padding: 14px 20px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-right: 1px solid var(--border);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .tab:last-child { border-right: none; }
+
+  .tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+
+  .tab.active {
+    color: var(--heading);
+    background: rgba(0,229,255,0.06);
+  }
+
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .tab.node-tab.active {
+    background: rgba(255,107,53,0.06);
+  }
+
+  .tab.node-tab.active::after {
+    background: var(--accent2);
+  }
+
+  /* Panel */
+  .panel { display: none; animation: fadeUp 0.4s ease both; }
+  .panel.active { display: block; }
+
+  /* Section */
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.01em;
+  }
+
+  .section-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    background: var(--border);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: auto;
+  }
+
+  /* Topics grid */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+
+  .topic-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .topic-card:hover {
+    border-color: rgba(255,255,255,0.1);
+    transform: translateY(-1px);
+  }
+
+  .topic-card:hover::before { opacity: 1; }
+
+  .topic-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.01em;
+  }
+
+  .topic-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  .topic-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+    letter-spacing: 0.05em;
+  }
+
+  /* Color themes per section */
+  .c-cyan .section-icon { background: rgba(0,229,255,0.1); }
+  .c-cyan .topic-card::before { background: var(--accent); }
+  .c-cyan .tag { color: var(--accent); border-color: rgba(0,229,255,0.2); background: rgba(0,229,255,0.05); }
+
+  .c-violet .section-icon { background: rgba(167,139,250,0.1); }
+  .c-violet .topic-card::before { background: var(--accent3); }
+  .c-violet .tag { color: var(--accent3); border-color: rgba(167,139,250,0.2); background: rgba(167,139,250,0.05); }
+
+  .c-green .section-icon { background: rgba(52,211,153,0.1); }
+  .c-green .topic-card::before { background: var(--accent4); }
+  .c-green .tag { color: var(--accent4); border-color: rgba(52,211,153,0.2); background: rgba(52,211,153,0.05); }
+
+  .c-orange .section-icon { background: rgba(255,107,53,0.1); }
+  .c-orange .topic-card::before { background: var(--accent2); }
+  .c-orange .tag { color: var(--accent2); border-color: rgba(255,107,53,0.2); background: rgba(255,107,53,0.05); }
+
+  .c-yellow .section-icon { background: rgba(250,204,21,0.1); }
+  .c-yellow .topic-card::before { background: #facc15; }
+  .c-yellow .tag { color: #facc15; border-color: rgba(250,204,21,0.2); background: rgba(250,204,21,0.05); }
+
+  .c-pink .section-icon { background: rgba(244,114,182,0.1); }
+  .c-pink .topic-card::before { background: #f472b6; }
+  .c-pink .tag { color: #f472b6; border-color: rgba(244,114,182,0.2); background: rgba(244,114,182,0.05); }
+
+  .c-sky .section-icon { background: rgba(56,189,248,0.1); }
+  .c-sky .topic-card::before { background: #38bdf8; }
+  .c-sky .tag { color: #38bdf8; border-color: rgba(56,189,248,0.2); background: rgba(56,189,248,0.05); }
+
+  /* Difficulty badge */
+  .diff {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .diff-senior { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+  .diff-mid { background: rgba(250,204,21,0.1); color: #facc15; border: 1px solid rgba(250,204,21,0.2); }
+  .diff-all { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.2); }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* Node banner */
+  .node-banner {
+    background: linear-gradient(135deg, rgba(255,107,53,0.08), rgba(255,107,53,0.02));
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .node-banner-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .node-banner-text h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 4px;
+  }
+
+  .node-banner-text p {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    .topics-grid { grid-template-columns: 1fr; }
+    .tabs { flex-direction: column; }
+    .tab { border-right: none; border-bottom: 1px solid var(--border); }
+    .tab:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-tag">Enterprise & Production Level</div>
+    <h1>Backend Interview<br><span>Topics Guide</span></h1>
+    <p class="header-sub">Comprehensive topics asked in senior backend engineering interviews — from universal concepts to Node.js specifics.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('universal', this)">🌐 Universal Topics</button>
+    <button class="tab node-tab" onclick="switchTab('nodejs', this)">⚡ Node.js Specific</button>
+  </div>
+
+  <!-- UNIVERSAL PANEL -->
+  <div id="panel-universal" class="panel active">
+
+    <!-- 1. System Design & Architecture -->
+    <div class="section c-cyan">
+      <div class="section-header">
+        <div class="section-icon">🏗️</div>
+        <div class="section-title">System Design & Architecture</div>
+        <span class="section-count">8 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Monolith vs Microservices</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Trade-offs, when to split, service boundaries, Conway's Law, decomposition strategies (by domain, by team).</div>
+          <div class="topic-tags"><span class="tag">Architecture</span><span class="tag">Design</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">API Design (REST & GraphQL)</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">RESTful principles, versioning, pagination, HATEOAS, GraphQL N+1, schema design, rate limiting endpoints.</div>
+          <div class="topic-tags"><span class="tag">REST</span><span class="tag">GraphQL</span><span class="tag">gRPC</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Event-Driven Architecture</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Event sourcing, CQRS, pub/sub patterns, eventual consistency, sagas, choreography vs orchestration.</div>
+          <div class="topic-tags"><span class="tag">Events</span><span class="tag">CQRS</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">CAP Theorem & Distributed Systems</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Consistency, Availability, Partition Tolerance trade-offs. BASE vs ACID, distributed transactions, consensus algorithms.</div>
+          <div class="topic-tags"><span class="tag">Distributed</span><span class="tag">CAP</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Load Balancing & Scaling</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Horizontal vs vertical scaling, round-robin/least-connections, sticky sessions, auto-scaling strategies, health checks.</div>
+          <div class="topic-tags"><span class="tag">Scaling</span><span class="tag">Infra</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">API Gateway & BFF Pattern</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Backend for Frontend, aggregation layer, auth at gateway, rate limiting, request transformation, circuit breaking.</div>
+          <div class="topic-tags"><span class="tag">Gateway</span><span class="tag">BFF</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Service Mesh & Communication</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Sync vs async inter-service comms, Istio/Envoy, sidecar proxy, mTLS, service discovery, retry/timeout policies.</div>
+          <div class="topic-tags"><span class="tag">Service Mesh</span><span class="tag">Istio</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Design Patterns</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Repository, Factory, Singleton, Strategy, Observer, Decorator, Circuit Breaker, Outbox Pattern.</div>
+          <div class="topic-tags"><span class="tag">Patterns</span><span class="tag">OOP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 2. Databases -->
+    <div class="section c-violet">
+      <div class="section-header">
+        <div class="section-icon">🗄️</div>
+        <div class="section-title">Databases & Data Modeling</div>
+        <span class="section-count">8 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">SQL Deep Dive</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">JOINs, window functions, CTEs, subqueries, EXPLAIN ANALYZE, query plan optimization, index types (B-tree, Hash, GIN).</div>
+          <div class="topic-tags"><span class="tag">SQL</span><span class="tag">Postgres</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Indexing Strategies</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Composite indexes, covering indexes, partial indexes, when not to index, index bloat, selectivity, cardinality.</div>
+          <div class="topic-tags"><span class="tag">Performance</span><span class="tag">SQL</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Transactions & Isolation Levels</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">ACID, Read Uncommitted/Committed/Repeatable/Serializable, dirty reads, phantom reads, deadlocks, optimistic locking.</div>
+          <div class="topic-tags"><span class="tag">ACID</span><span class="tag">Locks</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">NoSQL Databases</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Document (MongoDB), key-value (Redis), wide-column (Cassandra), graph (Neo4j). When to use which, consistency models.</div>
+          <div class="topic-tags"><span class="tag">NoSQL</span><span class="tag">MongoDB</span><span class="tag">Redis</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Database Sharding & Partitioning</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Horizontal/vertical partitioning, range vs hash sharding, resharding challenges, hotspots, cross-shard queries.</div>
+          <div class="topic-tags"><span class="tag">Sharding</span><span class="tag">Scale</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Data Migrations</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Zero-downtime migrations, expand-contract pattern, blue-green schema changes, rollback strategies, migration tooling.</div>
+          <div class="topic-tags"><span class="tag">Migrations</span><span class="tag">DevOps</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">ORM vs Raw SQL</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">N+1 problem, eager vs lazy loading, when ORMs hurt performance, raw query escape hatches, query builders.</div>
+          <div class="topic-tags"><span class="tag">ORM</span><span class="tag">Performance</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Replication & High Availability</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Primary-replica setup, synchronous vs async replication, read replicas, failover, split-brain problem, quorum.</div>
+          <div class="topic-tags"><span class="tag">HA</span><span class="tag">Replication</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 3. Caching -->
+    <div class="section c-green">
+      <div class="section-header">
+        <div class="section-icon">⚡</div>
+        <div class="section-title">Caching Strategies</div>
+        <span class="section-count">5 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Cache Patterns</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Cache-aside, write-through, write-behind, read-through. When to use each, data consistency trade-offs.</div>
+          <div class="topic-tags"><span class="tag">Caching</span><span class="tag">Redis</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Cache Invalidation</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">TTL-based, event-driven invalidation, cache stampede / thundering herd, stale-while-revalidate, cache versioning.</div>
+          <div class="topic-tags"><span class="tag">TTL</span><span class="tag">Consistency</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Distributed Caching</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Redis Cluster, consistent hashing, cache eviction policies (LRU/LFU/FIFO), memcached vs Redis, hot key problem.</div>
+          <div class="topic-tags"><span class="tag">Redis</span><span class="tag">Distributed</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">CDN & Edge Caching</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Cache-Control headers, Vary header, purging strategies, edge side includes, dynamic vs static content caching.</div>
+          <div class="topic-tags"><span class="tag">CDN</span><span class="tag">HTTP</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">In-Memory Data Structures</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Redis data types: strings, hashes, sorted sets, lists, streams. Pub/sub, Lua scripting, pipelining, transactions.</div>
+          <div class="topic-tags"><span class="tag">Redis</span><span class="tag">Data Structures</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 4. Security -->
+    <div class="section c-orange">
+      <div class="section-header">
+        <div class="section-icon">🔐</div>
+        <div class="section-title">Security</div>
+        <span class="section-count">7 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Authentication & Authorization</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">JWT vs sessions vs OAuth2, OIDC, RBAC vs ABAC, refresh token rotation, token revocation, SSO.</div>
+          <div class="topic-tags"><span class="tag">JWT</span><span class="tag">OAuth2</span><span class="tag">RBAC</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">OWASP Top 10</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Injection, XSS, CSRF, broken access control, SSRF, insecure deserialization, security misconfigurations.</div>
+          <div class="topic-tags"><span class="tag">OWASP</span><span class="tag">Security</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Encryption</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">TLS/mTLS, symmetric vs asymmetric, hashing passwords (bcrypt/argon2), encryption at rest vs in transit, key management.</div>
+          <div class="topic-tags"><span class="tag">TLS</span><span class="tag">Crypto</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Rate Limiting & DDoS</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Token bucket, leaky bucket, sliding window counters, IP-based vs user-based limits, WAF, Cloudflare integration.</div>
+          <div class="topic-tags"><span class="tag">Rate Limit</span><span class="tag">DDoS</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Secrets Management</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Vault, AWS Secrets Manager, env variables vs config files, secret rotation, least privilege, zero-trust principles.</div>
+          <div class="topic-tags"><span class="tag">Vault</span><span class="tag">DevSecOps</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">SQL Injection & Input Validation</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Parameterized queries, prepared statements, input sanitization vs validation, schema validation libraries (Zod, Joi).</div>
+          <div class="topic-tags"><span class="tag">SQL</span><span class="tag">Validation</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">API Security</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">API keys vs bearer tokens, CORS, HTTPS enforcement, request signing (HMAC), content-type sniffing prevention.</div>
+          <div class="topic-tags"><span class="tag">API</span><span class="tag">CORS</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 5. Message Queues -->
+    <div class="section c-yellow">
+      <div class="section-header">
+        <div class="section-icon">📨</div>
+        <div class="section-title">Message Queues & Async Processing</div>
+        <span class="section-count">5 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Message Brokers</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Kafka vs RabbitMQ vs SQS. Topics, partitions, consumer groups, at-least-once vs exactly-once delivery, DLQ.</div>
+          <div class="topic-tags"><span class="tag">Kafka</span><span class="tag">RabbitMQ</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Idempotency</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Designing idempotent APIs and consumers, idempotency keys, deduplication strategies, at-least-once processing safety.</div>
+          <div class="topic-tags"><span class="tag">Reliability</span><span class="tag">Patterns</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Background Jobs & Workers</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Job queues, retry with backoff, poison messages, concurrency control, job scheduling (cron), worker pools.</div>
+          <div class="topic-tags"><span class="tag">Jobs</span><span class="tag">Workers</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Outbox Pattern</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Ensuring DB write + event publish atomicity, transactional outbox, CDC with Debezium, dual write problems.</div>
+          <div class="topic-tags"><span class="tag">Outbox</span><span class="tag">CDC</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Saga Pattern</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Managing distributed transactions without 2PC. Choreography vs orchestration, compensating transactions, rollback flows.</div>
+          <div class="topic-tags"><span class="tag">Saga</span><span class="tag">Distributed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 6. Observability -->
+    <div class="section c-pink">
+      <div class="section-header">
+        <div class="section-icon">📊</div>
+        <div class="section-title">Observability & Reliability</div>
+        <span class="section-count">5 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Logging Best Practices</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Structured logging (JSON), log levels, correlation IDs, PII redaction, centralized log aggregation (ELK/Loki).</div>
+          <div class="topic-tags"><span class="tag">Logging</span><span class="tag">ELK</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Distributed Tracing</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">OpenTelemetry, trace context propagation, spans, Jaeger/Zipkin, correlating traces across services, sampling strategies.</div>
+          <div class="topic-tags"><span class="tag">OpenTelemetry</span><span class="tag">Tracing</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Metrics & Alerting</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">RED method (Rate, Errors, Duration), USE method, Prometheus + Grafana, SLI/SLO/SLA, error budgets, PagerDuty.</div>
+          <div class="topic-tags"><span class="tag">Prometheus</span><span class="tag">SLO</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Circuit Breaker & Resilience</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Circuit breaker pattern (closed/open/half-open), bulkhead, retry with exponential backoff, fallbacks, chaos engineering.</div>
+          <div class="topic-tags"><span class="tag">Resilience</span><span class="tag">Patterns</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Health Checks & Readiness</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Liveness vs readiness vs startup probes, dependency health checks, graceful shutdown, SIGTERM handling.</div>
+          <div class="topic-tags"><span class="tag">K8s</span><span class="tag">Health</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 7. DevOps & CI/CD -->
+    <div class="section c-sky">
+      <div class="section-header">
+        <div class="section-icon">🚀</div>
+        <div class="section-title">DevOps, CI/CD & Deployment</div>
+        <span class="section-count">5 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Containerization & Kubernetes</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Docker multi-stage builds, container security, K8s Deployments, Services, HPA, resource limits, namespaces, RBAC.</div>
+          <div class="topic-tags"><span class="tag">Docker</span><span class="tag">K8s</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Deployment Strategies</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Blue-green, canary, rolling, feature flags, dark launches, rollback strategies, immutable infrastructure.</div>
+          <div class="topic-tags"><span class="tag">Deployment</span><span class="tag">Strategy</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Infrastructure as Code</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Terraform, Pulumi, Helm charts, GitOps with ArgoCD/FluxCD, drift detection, state management.</div>
+          <div class="topic-tags"><span class="tag">Terraform</span><span class="tag">GitOps</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">CI/CD Pipelines</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Build → test → lint → SAST → deploy pipeline, branch strategies (trunk-based), test coverage gates, artifact registries.</div>
+          <div class="topic-tags"><span class="tag">CI/CD</span><span class="tag">GitHub Actions</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Serverless Architecture</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Lambda/Cloud Functions, cold starts, execution limits, event triggers, cost model, stateless design, vendor lock-in.</div>
+          <div class="topic-tags"><span class="tag">Serverless</span><span class="tag">Lambda</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- NODEJS PANEL -->
+  <div id="panel-nodejs" class="panel">
+
+    <div class="node-banner">
+      <div class="node-banner-icon">⚡</div>
+      <div class="node-banner-text">
+        <h3>Node.js Stack — Enterprise Interview Topics</h3>
+        <p>Deep-dive questions specific to the Node.js ecosystem, runtime internals, and production patterns.</p>
+      </div>
+    </div>
+
+    <!-- Runtime Internals -->
+    <div class="section c-orange">
+      <div class="section-header">
+        <div class="section-icon">🔧</div>
+        <div class="section-title">Runtime Internals & Event Loop</div>
+        <span class="section-count">6 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Event Loop Architecture</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Phases: timers → I/O callbacks → idle → poll → check → close. process.nextTick vs setImmediate vs Promises microtask queue.</div>
+          <div class="topic-tags"><span class="tag">Event Loop</span><span class="tag">libuv</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Non-Blocking I/O</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">How Node handles async I/O via libuv thread pool, OS epoll/kqueue, blocking the event loop pitfalls, CPU-bound tasks.</div>
+          <div class="topic-tags"><span class="tag">Async</span><span class="tag">libuv</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Worker Threads</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">worker_threads module for CPU-bound work, SharedArrayBuffer, Atomics, message passing, thread pool for crypto/fs ops.</div>
+          <div class="topic-tags"><span class="tag">Workers</span><span class="tag">CPU</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Cluster Module</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Multi-process clustering, PM2 cluster mode, IPC between workers, shared state challenges, graceful restart patterns.</div>
+          <div class="topic-tags"><span class="tag">Cluster</span><span class="tag">PM2</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">V8 Engine & Memory</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Heap/stack, V8 garbage collection (Scavenger/Mark-Sweep), memory leaks (closures, global refs), --max-old-space-size, heap profiling.</div>
+          <div class="topic-tags"><span class="tag">V8</span><span class="tag">Memory</span><span class="tag">GC</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Async Patterns</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Callbacks → Promises → async/await, Promise.all vs allSettled vs race vs any, async error boundaries, unhandledRejection.</div>
+          <div class="topic-tags"><span class="tag">Promises</span><span class="tag">Async/Await</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Streams & Buffers -->
+    <div class="section c-cyan">
+      <div class="section-header">
+        <div class="section-icon">🌊</div>
+        <div class="section-title">Streams, Buffers & I/O</div>
+        <span class="section-count">4 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Node.js Streams</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Readable, Writable, Duplex, Transform streams. Backpressure, pipe(), pipeline(), highWaterMark, stream.pipeline vs stream.pipe.</div>
+          <div class="topic-tags"><span class="tag">Streams</span><span class="tag">Backpressure</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Buffer & Binary Data</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Buffer class, encoding/decoding, binary protocols, TypedArrays, working with binary file formats, streaming file uploads.</div>
+          <div class="topic-tags"><span class="tag">Buffer</span><span class="tag">Binary</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">File System Operations</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">fs vs fs/promises, streaming vs buffered reads, fs.watch, inotify limits, temp files, atomic writes with rename.</div>
+          <div class="topic-tags"><span class="tag">fs</span><span class="tag">I/O</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">HTTP/2 & WebSockets</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">HTTP/2 multiplexing, server push, WebSocket upgrade handshake, Socket.IO vs raw ws, long-polling vs SSE vs WebSockets.</div>
+          <div class="topic-tags"><span class="tag">HTTP/2</span><span class="tag">WebSockets</span><span class="tag">SSE</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Express / Fastify -->
+    <div class="section c-green">
+      <div class="section-header">
+        <div class="section-icon">🛣️</div>
+        <div class="section-title">Frameworks — Express & Fastify</div>
+        <span class="section-count">5 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Middleware Architecture</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Express middleware pipeline, error-handling middleware (4 args), async middleware gotchas, execution order, next() behavior.</div>
+          <div class="topic-tags"><span class="tag">Express</span><span class="tag">Middleware</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Express vs Fastify</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Performance differences, JSON schema validation in Fastify, plugin encapsulation, Pino logger, serialization speed, hooks lifecycle.</div>
+          <div class="topic-tags"><span class="tag">Fastify</span><span class="tag">Performance</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Request Lifecycle</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Request parsing, body size limits, multipart/form-data, compression (gzip/brotli), ETag/caching headers, response streaming.</div>
+          <div class="topic-tags"><span class="tag">HTTP</span><span class="tag">Lifecycle</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Error Handling Patterns</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Custom AppError classes, operational vs programmer errors, domain errors, async error propagation, global uncaughtException handling.</div>
+          <div class="topic-tags"><span class="tag">Error Handling</span><span class="tag">Patterns</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Graceful Shutdown</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">SIGTERM/SIGINT handlers, draining in-flight requests, closing DB connections, queue consumer cleanup, K8s preStop hooks.</div>
+          <div class="topic-tags"><span class="tag">Graceful Shutdown</span><span class="tag">K8s</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Performance -->
+    <div class="section c-violet">
+      <div class="section-header">
+        <div class="section-icon">📈</div>
+        <div class="section-title">Performance & Profiling</div>
+        <span class="section-count">5 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Profiling Node.js Apps</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">--inspect flag, Chrome DevTools profiling, clinic.js (Doctor, Flame, Bubbleprof), flame graphs, identifying hot paths.</div>
+          <div class="topic-tags"><span class="tag">clinic.js</span><span class="tag">Profiling</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Memory Leak Detection</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">Heap snapshots, identifying retained objects, closure leaks, EventEmitter listener leaks, global variable accumulation.</div>
+          <div class="topic-tags"><span class="tag">Memory</span><span class="tag">Heap</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Connection Pooling</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">DB connection pools (pg-pool, mongoose poolSize), HTTP keep-alive, pool exhaustion, queuing vs rejecting, pool sizing formulas.</div>
+          <div class="topic-tags"><span class="tag">DB Pools</span><span class="tag">HTTP</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Concurrency Patterns</div><span class="diff diff-senior">Senior</span></div>
+          <div class="topic-desc">p-limit for throttled concurrency, queue-based processing, avoiding Promise.all avalanche, fan-out/fan-in patterns.</div>
+          <div class="topic-tags"><span class="tag">Concurrency</span><span class="tag">p-limit</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Caching in Node.js</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">In-process cache (node-cache, lru-cache), Redis integration (ioredis), cache warming, serialization costs, WeakMap for memoization.</div>
+          <div class="topic-tags"><span class="tag">Cache</span><span class="tag">ioredis</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- TypeScript & Testing -->
+    <div class="section c-pink">
+      <div class="section-header">
+        <div class="section-icon">🧪</div>
+        <div class="section-title">TypeScript, Testing & Quality</div>
+        <span class="section-count">5 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">TypeScript Advanced</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Generics, utility types (Partial/Pick/Omit), discriminated unions, type guards, conditional types, declaration merging, strict mode.</div>
+          <div class="topic-tags"><span class="tag">TypeScript</span><span class="tag">Types</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Unit & Integration Testing</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Jest/Vitest, mocking (jest.mock, msw), test pyramid, test doubles (stubs/spies/mocks), TDD, coverage thresholds.</div>
+          <div class="topic-tags"><span class="tag">Jest</span><span class="tag">Vitest</span><span class="tag">MSW</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">E2E & Contract Testing</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Supertest for API testing, Pact for consumer-driven contracts, test isolation, DB seeding strategies, test containers.</div>
+          <div class="topic-tags"><span class="tag">Supertest</span><span class="tag">Pact</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Dependency Injection</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">DI containers (tsyringe, InversifyJS, NestJS DI), IoC principles, constructor vs property injection, testability benefits.</div>
+          <div class="topic-tags"><span class="tag">DI</span><span class="tag">NestJS</span><span class="tag">IoC</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Module System & Bundling</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">CommonJS vs ESM, circular dependencies, dynamic imports, tree shaking, esbuild vs tsc for builds, tsconfig paths.</div>
+          <div class="topic-tags"><span class="tag">ESM</span><span class="tag">CJS</span><span class="tag">esbuild</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Ecosystem -->
+    <div class="section c-sky">
+      <div class="section-header">
+        <div class="section-icon">📦</div>
+        <div class="section-title">Ecosystem & Production Tooling</div>
+        <span class="section-count">5 topics</span>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">NestJS Architecture</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">Modules, controllers, providers, interceptors, guards, pipes, lifecycle hooks, microservice transport layers.</div>
+          <div class="topic-tags"><span class="tag">NestJS</span><span class="tag">Architecture</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">ORM & Query Builders</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Prisma vs TypeORM vs Drizzle. Migrations, relations, transactions, raw query escape, connection pooling config.</div>
+          <div class="topic-tags"><span class="tag">Prisma</span><span class="tag">TypeORM</span><span class="tag">Drizzle</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Queue Libraries</div><span class="diff diff-mid">Mid</span></div>
+          <div class="topic-desc">BullMQ with Redis, job priorities, rate limiting, delayed jobs, repeatable jobs, concurrency, stalled job detection.</div>
+          <div class="topic-tags"><span class="tag">BullMQ</span><span class="tag">Redis</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Logging & Tracing</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">Pino vs Winston, structured logging, async context (AsyncLocalStorage) for request correlation, OpenTelemetry Node SDK.</div>
+          <div class="topic-tags"><span class="tag">Pino</span><span class="tag">AsyncLocalStorage</span></div>
+        </div>
+        <div class="topic-card">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div class="topic-name">Package Management & Security</div><span class="diff diff-all">All Levels</span></div>
+          <div class="topic-desc">npm vs yarn vs pnpm, lockfiles, npm audit, supply chain attacks, package.json engines field, monorepo (Nx/Turborepo).</div>
+          <div class="topic-tags"><span class="tag">pnpm</span><span class="tag">Monorepo</span><span class="tag">Security</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function switchTab(panel, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + panel).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
