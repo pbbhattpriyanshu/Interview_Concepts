@@ -1,651 +1,1308 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DSA Topics — Service Level Companies</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
-<style>
-  :root {
-    --bg: #0b0f1a;
-    --surface: #121828;
-    --border: #1e2d45;
-    --accent1: #00e5c3;
-    --accent2: #ff6b35;
-    --accent3: #7c6bff;
-    --accent4: #ffd166;
-    --accent5: #06d6a0;
-    --accent6: #ef476f;
-    --text: #e8edf5;
-    --muted: #6b7a99;
-    --tag-bg: #1a2235;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DSA Topics — Service Level Companies</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --surface: #121828;
+      --border: #1e2d45;
+      --accent1: #00e5c3;
+      --accent2: #ff6b35;
+      --accent3: #7c6bff;
+      --accent4: #ffd166;
+      --accent5: #06d6a0;
+      --accent6: #ef476f;
+      --text: #e8edf5;
+      --muted: #6b7a99;
+      --tag-bg: #1a2235;
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-  /* grid bg */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,229,195,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,195,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
+    /* grid bg */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 229, 195, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 195, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-  .wrapper {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
 
-  header {
-    margin-bottom: 48px;
-    animation: fadeUp 0.7s ease both;
-  }
+    header {
+      margin-bottom: 48px;
+      animation: fadeUp 0.7s ease both;
+    }
 
-  .badge {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent1);
-    border: 1px solid var(--accent1);
-    padding: 4px 12px;
-    border-radius: 2px;
-    margin-bottom: 16px;
-  }
+    .badge {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent1);
+      border: 1px solid var(--accent1);
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
 
-  h1 {
-    font-size: clamp(28px, 5vw, 52px);
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 12px;
-  }
+    h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
 
-  h1 span { color: var(--accent1); }
+    h1 span {
+      color: var(--accent1);
+    }
 
-  .subtitle {
-    color: var(--muted);
-    font-size: 15px;
-    font-family: 'Space Mono', monospace;
-    max-width: 600px;
-  }
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      font-family: 'Space Mono', monospace;
+      max-width: 600px;
+    }
 
-  .stats-row {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-    animation: fadeUp 0.7s 0.1s ease both;
-  }
+    .stats-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
 
-  .stat {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
 
-  .stat-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--accent1);
-  }
+    .stat-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent1);
+    }
 
-  .stat-label {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
 
-  .sections-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
-  }
+    .sections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
 
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.2s, border-color 0.2s;
-    animation: fadeUp 0.5s ease both;
-  }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      animation: fadeUp 0.5s ease both;
+    }
 
-  .card:hover {
-    transform: translateY(-3px);
-    border-color: var(--card-accent);
-  }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--card-accent);
+    }
 
-  .card-header {
-    padding: 18px 20px 14px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+    .card-header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-  .card-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-    background: color-mix(in srgb, var(--card-accent) 15%, transparent);
-    border: 1px solid color-mix(in srgb, var(--card-accent) 30%, transparent);
-  }
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      background: color-mix(in srgb, var(--card-accent) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--card-accent) 30%, transparent);
+    }
 
-  .card-title {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    color: var(--card-accent);
-  }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--card-accent);
+    }
 
-  .topic-count {
-    margin-left: auto;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    background: var(--tag-bg);
-    padding: 2px 8px;
-    border-radius: 20px;
-  }
+    .topic-count {
+      margin-left: auto;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      background: var(--tag-bg);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
 
-  .card-body {
-    padding: 16px 20px;
-  }
+    .card-body {
+      padding: 16px 20px;
+    }
 
-  .topic-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    font-size: 13.5px;
-    line-height: 1.5;
-  }
+    .topic-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
 
-  .topic-item:last-child { border-bottom: none; }
+    .topic-item:last-child {
+      border-bottom: none;
+    }
 
-  .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--card-accent);
-    margin-top: 7px;
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--card-accent);
+      margin-top: 7px;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
 
-  .topic-name { color: var(--text); flex: 1; }
+    .topic-name {
+      color: var(--text);
+      flex: 1;
+    }
 
-  .tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    padding: 2px 6px;
-    border-radius: 3px;
-    flex-shrink: 0;
-    margin-top: 3px;
-  }
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 3px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
 
-  .tag-high { background: rgba(239,71,111,0.15); color: #ef476f; }
-  .tag-med  { background: rgba(255,209,102,0.15); color: #ffd166; }
-  .tag-low  { background: rgba(6,214,160,0.15);  color: #06d6a0; }
+    .tag-high {
+      background: rgba(239, 71, 111, 0.15);
+      color: #ef476f;
+    }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+    .tag-med {
+      background: rgba(255, 209, 102, 0.15);
+      color: #ffd166;
+    }
 
-  .legend {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 28px;
-    font-size: 12px;
-    color: var(--muted);
-    font-family: 'Space Mono', monospace;
-    animation: fadeUp 0.7s 0.15s ease both;
-  }
+    .tag-low {
+      background: rgba(6, 214, 160, 0.15);
+      color: #06d6a0;
+    }
 
-  .legend-item { display: flex; align-items: center; gap: 6px; }
-  .legend-dot {
-    width: 8px; height: 8px; border-radius: 2px;
-  }
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
 
-  .footer {
-    margin-top: 48px;
-    text-align: center;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-  }
-</style>
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .legend {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      animation: fadeUp 0.7s 0.15s ease both;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+    }
+
+    .footer {
+      margin-top: 48px;
+      text-align: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+  </style>
 </head>
+
 <body>
-<div class="wrapper">
+  <div class="wrapper">
 
-  <header>
-    <div class="badge">Interview Prep Guide</div>
-    <h1>DSA Topics for <span>Service Level</span> Companies</h1>
-    <p class="subtitle">// Low to Mid Level — Every topic from basics to commonly asked problems</p>
-  </header>
+    <header>
+      <div class="badge">Interview Prep Guide</div>
+      <h1>DSA Topics for <span>Service Level</span> Companies</h1>
+      <p class="subtitle">// Low to Mid Level — Every topic from basics to commonly asked problems</p>
+    </header>
 
-  <div class="stats-row">
-    <div class="stat"><span class="stat-num">15</span><span class="stat-label">Categories</span></div>
-    <div class="stat"><span class="stat-num">120+</span><span class="stat-label">Topics</span></div>
-    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Priority Levels</span></div>
-    <div class="stat"><span class="stat-num">★</span><span class="stat-label">Service Level Focus</span></div>
+    <div class="stats-row">
+      <div class="stat"><span class="stat-num">15</span><span class="stat-label">Categories</span></div>
+      <div class="stat"><span class="stat-num">120+</span><span class="stat-label">Topics</span></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Priority Levels</span></div>
+      <div class="stat"><span class="stat-num">★</span><span class="stat-label">Service Level Focus</span></div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#ef476f"></div> HIGH — Very Frequently Asked
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#ffd166"></div> MED — Moderately Asked
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#06d6a0"></div> LOW — Occasionally Asked
+      </div>
+    </div>
+
+    <div class="sections-grid">
+
+      <!-- 1. Arrays -->
+      <div class="card" style="--card-accent: #00e5c3;">
+        <div class="card-header">
+          <div class="card-icon">🔢</div>
+          <div class="card-title">Arrays</div>
+          <span class="topic-count">24 topics</span>
+        </div>
+
+        <div class="card-body">
+
+          <!-- HIGH PRIORITY -->
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Array traversal & iteration</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Reverse an array (two-pointer)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Find max/min element</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Second largest / smallest element</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Two Sum (with & without Hashing)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Prefix sum / cumulative sum</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Kadane's Algorithm (maximum subarray)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Sliding window technique</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Two pointer technique</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Stock Buy & Sell (max profit)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+
+          <!-- MEDIUM PRIORITY -->
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Rotate array (left/right by K)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Merge two sorted arrays</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Remove duplicates (sorted array)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Move zeros to end (stable)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Leaders in an array</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Majority element (Moore’s Voting)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Subarray with given sum</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Count subarrays with given sum</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Rearrange positive & negative alternately</span><span
+              class="tag tag-med">MED</span>
+          </div>
+
+          <!-- LOW PRIORITY -->
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Equilibrium index</span><span class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Trapping Rain Water (basic understanding)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Sort 0s, 1s, 2s (Dutch National Flag)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Find missing number</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Find duplicate element</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 2. Strings -->
+      <div class="card" style="--card-accent: #ff6b35; animation-delay: 0.10s">
+        <div class="card-header">
+          <div class="card-icon">📝</div>
+          <div class="card-title">Strings</div>
+          <span class="topic-count">15 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Reverse a string</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Check palindrome</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Anagram check</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Count vowels & consonants</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">First non-repeating character</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Frequency of characters</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Longest substring without repeating chars</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">String compression (run-length encoding)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Check if strings are rotation of each other</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Count and say</span><span class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">String reversal word by word</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Wildcard pattern matching</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Longest common prefix</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Valid parentheses string</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Roman to Integer / Integer to Roman</span><span
+              class="tag tag-med">MED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Searching & Sorting -->
+      <div class="card" style="--card-accent: #7c6bff; animation-delay: 0.15s">
+        <div class="card-header">
+          <div class="card-icon">🔍</div>
+          <div class="card-title">Searching & Sorting</div>
+          <span class="topic-count">16 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Linear search</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Binary search (iterative & recursive)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Binary search on answer</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Search in rotated sorted array</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Find first & last occurrence</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Bubble sort</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Selection sort</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Insertion sort</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Merge sort</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Quick sort</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Counting sort</span><span class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Radix sort (concept)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Heap sort</span><span class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Sort 0s, 1s, 2s (Dutch National Flag)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Merge intervals</span><span class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Kth smallest/largest element</span><span
+              class="tag tag-med">MED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Linked Lists -->
+      <div class="card" style="--card-accent: #ffd166; animation-delay: 0.20s">
+        <div class="card-header">
+          <div class="card-icon">🔗</div>
+          <div class="card-title">Linked Lists</div>
+          <span class="topic-count">16 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Singly linked list — insert/delete/traverse</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Doubly linked list basics</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Reverse a linked list</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Detect cycle (Floyd's algorithm)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Find middle of linked list</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Merge two sorted linked lists</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Remove Nth node from end</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Remove duplicates from LL</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Intersection of two linked lists</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Palindrome linked list</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Add two numbers (LL form)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Flatten a multilevel linked list</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Circular linked list</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Rotate a linked list</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Sort a linked list (merge sort)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">LRU Cache (LL + HashMap)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Stack & Queue -->
+      <div class="card" style="--card-accent: #06d6a0; animation-delay: 0.25s">
+        <div class="card-header">
+          <div class="card-icon">📚</div>
+          <div class="card-title">Stack & Queue</div>
+          <span class="topic-count">14 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Stack using array / linked list</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Queue using array / linked list</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Implement stack using queues</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Implement queue using stacks</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Valid parentheses / bracket matching</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Next greater element</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Largest rectangle in histogram</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Evaluate postfix expression</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Min stack (getMin in O(1))</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Circular queue</span><span class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Deque (double-ended queue)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Sliding window maximum (monotonic deque)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Stock span problem</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Celebrity problem</span><span class="tag tag-low">LOW</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Hashing -->
+      <div class="card" style="--card-accent: #ef476f; animation-delay: 0.30s">
+        <div class="card-header">
+          <div class="card-icon">#️⃣</div>
+          <div class="card-title">Hashing</div>
+          <span class="topic-count">10 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">HashMap / HashSet basics</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Frequency counting using hash map</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Two sum using hash map</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Group anagrams</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Subarray with zero sum</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Longest subarray with equal 0s and 1s</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Count distinct elements in window</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">4-sum / 3-sum problem</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Check if array can be divided into pairs</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Longest consecutive sequence</span><span
+              class="tag tag-med">MED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Trees -->
+      <div class="card" style="--card-accent: #00e5c3; animation-delay: 0.35s">
+        <div class="card-header">
+          <div class="card-icon">🌳</div>
+          <div class="card-title">Trees (Binary Tree & BST)</div>
+          <span class="topic-count">20 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Tree traversals — Inorder, Preorder, Postorder</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Level order traversal (BFS)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Height/depth of binary tree</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Count nodes in a tree</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Check if tree is balanced</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Mirror / invert a binary tree</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Check if two trees are identical</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Diameter of a binary tree</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Lowest common ancestor (LCA)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Root to leaf path sum</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Max path sum in binary tree</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Zigzag level order traversal</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">BST — insert, delete, search</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Validate BST</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Inorder successor/predecessor in BST</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Kth smallest/largest in BST</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Convert sorted array to BST</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Construct tree from traversals</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Boundary traversal of tree</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Serialize & deserialize tree</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Graphs -->
+      <div class="card" style="--card-accent: #ff6b35; animation-delay: 0.40s">
+        <div class="card-header">
+          <div class="card-icon">🕸️</div>
+          <div class="card-title">Graphs</div>
+          <span class="topic-count">16 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Graph representation — Adj. list & matrix</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">BFS traversal</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">DFS traversal</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Detect cycle in undirected graph</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Detect cycle in directed graph</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Topological sort (Kahn's & DFS)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Connected components</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Shortest path — BFS (unweighted)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Dijkstra's algorithm</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Bellman-Ford algorithm (concept)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Floyd-Warshall (concept)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Number of islands (grid BFS/DFS)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Bipartite graph check</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Minimum spanning tree (Prim's/Kruskal's concept)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Disjoint Set Union (DSU)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Flood fill algorithm</span><span
+              class="tag tag-med">MED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. Recursion & Backtracking -->
+      <div class="card" style="--card-accent: #7c6bff; animation-delay: 0.45s">
+        <div class="card-header">
+          <div class="card-icon">🔄</div>
+          <div class="card-title">Recursion & Backtracking</div>
+          <span class="topic-count">12 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Recursion basics & base cases</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Factorial & Fibonacci (recursive)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Tower of Hanoi</span><span class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Power function (fast exponentiation)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Subsets / Power set generation</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Permutations of a string/array</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Combinations (nCr)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">N-Queens problem</span><span class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Rat in a maze</span><span class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Sudoku solver</span><span class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Word search in grid</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Palindrome partitioning</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. Dynamic Programming -->
+      <div class="card" style="--card-accent: #ffd166; animation-delay: 0.50s">
+        <div class="card-header">
+          <div class="card-icon">💡</div>
+          <div class="card-title">Dynamic Programming</div>
+          <span class="topic-count">18 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Memoization vs Tabulation concept</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Fibonacci using DP</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">0/1 Knapsack problem</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Unbounded knapsack</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Subset sum problem</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Coin change (min coins)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Longest Common Subsequence (LCS)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Longest Increasing Subsequence (LIS)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Edit distance (Levenshtein)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Minimum path sum in grid</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Unique paths in grid</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Rod cutting problem</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Matrix chain multiplication (concept)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Longest palindromic subsequence</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Word break problem</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Egg drop problem</span><span class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Partition equal subset sum</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">House robber (adjacent elements)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11. Heap / Priority Queue -->
+      <div class="card" style="--card-accent: #06d6a0; animation-delay: 0.55s">
+        <div class="card-header">
+          <div class="card-icon">⛰️</div>
+          <div class="card-title">Heap / Priority Queue</div>
+          <span class="topic-count">8 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Min-Heap & Max-Heap concepts</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Heapify & heap operations</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Kth largest element</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Top K frequent elements</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Merge K sorted arrays/lists</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Running median (two heaps)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Task scheduler</span><span class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Sort a nearly sorted array</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. Greedy -->
+      <div class="card" style="--card-accent: #ef476f; animation-delay: 0.60s">
+        <div class="card-header">
+          <div class="card-icon">🤑</div>
+          <div class="card-title">Greedy Algorithms</div>
+          <span class="topic-count">9 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Activity selection problem</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Fractional knapsack</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Job scheduling with deadlines</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Minimum number of coins (greedy)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Jump game (can reach end?)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Minimum platforms (trains)</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Huffman encoding concept</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Assign cookies (LeetCode)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Largest number from array digits</span><span
+              class="tag tag-med">MED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13. Matrix/2D Arrays -->
+      <div class="card" style="--card-accent: #00e5c3; animation-delay: 0.65s">
+        <div class="card-header">
+          <div class="card-icon">🔲</div>
+          <div class="card-title">Matrix / 2D Arrays</div>
+          <span class="topic-count">9 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Matrix traversal (row, column, diagonal)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Transpose of a matrix</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Rotate matrix 90 degrees</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Spiral order traversal</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Search in a row & column sorted matrix</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Set matrix zeroes</span><span class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Pascal's triangle</span><span class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Word search in 2D grid</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Boolean matrix — row/col zeros</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14. Bit Manipulation -->
+      <div class="card" style="--card-accent: #7c6bff; animation-delay: 0.70s">
+        <div class="card-header">
+          <div class="card-icon">⚙️</div>
+          <div class="card-title">Bit Manipulation</div>
+          <span class="topic-count">9 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">AND, OR, XOR, NOT, Shifts basics</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Check if number is power of 2</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Count set bits (Brian Kernighan)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Find the single non-duplicate (XOR)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Swap two numbers without temp</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Find two non-repeating elements</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Set/unset/toggle a bit</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Reverse bits of a number</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Subsets using bitmask</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15. Maths -->
+      <div class="card" style="--card-accent: #ffd166; animation-delay: 0.75s">
+        <div class="card-header">
+          <div class="card-icon">🧮</div>
+          <div class="card-title">Mathematical Concepts</div>
+          <span class="topic-count">12 topics</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">GCD & LCM (Euclidean algorithm)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Prime check (trial division)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Sieve of Eratosthenes</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Reverse a number / Palindrome number</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Armstrong number</span><span class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Count digits, sum of digits</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Factorial (iterative & recursive)</span><span
+              class="tag tag-high">HIGH</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Modular arithmetic & overflow handling</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Power (x^n) — fast exponentiation</span><span
+              class="tag tag-med">MED</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Catalan numbers (concept)</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">nCr with modulo</span><span class="tag tag-low">LOW</span>
+          </div>
+          <div class="topic-item">
+            <div class="dot"></div><span class="topic-name">Perfect number check</span><span
+              class="tag tag-low">LOW</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <p>Compiled for Service Level (Low–Mid) Company Interviews &nbsp;·&nbsp; Focus on HIGH priority topics first</p>
+    </div>
+
   </div>
-
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#ef476f"></div> HIGH — Very Frequently Asked</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#ffd166"></div> MED — Moderately Asked</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#06d6a0"></div> LOW — Occasionally Asked</div>
-  </div>
-
-  <div class="sections-grid">
-
-    <!-- 1. Arrays -->
-    <div class="card" style="--card-accent: #00e5c3; animation-delay: 0.05s">
-      <div class="card-header">
-        <div class="card-icon">🔢</div>
-        <div class="card-title">Arrays</div>
-        <span class="topic-count">18 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Array traversal & iteration</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Reverse an array</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Find max/min element</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Second largest/smallest</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Two Sum problem</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Prefix sum / suffix sum</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Kadane's Algorithm (max subarray)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Sliding window technique</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Two pointer technique</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Rotate array (left/right)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Merge two sorted arrays</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Remove duplicates from sorted array</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Move zeros to end</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Leaders in an array</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Majority element (Moore's voting)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Stock buy/sell problem</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Equilibrium index</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Subarray with given sum</span><span class="tag tag-med">MED</span></div>
-      </div>
-    </div>
-
-    <!-- 2. Strings -->
-    <div class="card" style="--card-accent: #ff6b35; animation-delay: 0.10s">
-      <div class="card-header">
-        <div class="card-icon">📝</div>
-        <div class="card-title">Strings</div>
-        <span class="topic-count">15 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Reverse a string</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Check palindrome</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Anagram check</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Count vowels & consonants</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">First non-repeating character</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Frequency of characters</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Longest substring without repeating chars</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">String compression (run-length encoding)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Check if strings are rotation of each other</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Count and say</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">String reversal word by word</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Wildcard pattern matching</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Longest common prefix</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Valid parentheses string</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Roman to Integer / Integer to Roman</span><span class="tag tag-med">MED</span></div>
-      </div>
-    </div>
-
-    <!-- 3. Searching & Sorting -->
-    <div class="card" style="--card-accent: #7c6bff; animation-delay: 0.15s">
-      <div class="card-header">
-        <div class="card-icon">🔍</div>
-        <div class="card-title">Searching & Sorting</div>
-        <span class="topic-count">16 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Linear search</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Binary search (iterative & recursive)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Binary search on answer</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Search in rotated sorted array</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Find first & last occurrence</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Bubble sort</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Selection sort</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Insertion sort</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Merge sort</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Quick sort</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Counting sort</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Radix sort (concept)</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Heap sort</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Sort 0s, 1s, 2s (Dutch National Flag)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Merge intervals</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Kth smallest/largest element</span><span class="tag tag-med">MED</span></div>
-      </div>
-    </div>
-
-    <!-- 4. Linked Lists -->
-    <div class="card" style="--card-accent: #ffd166; animation-delay: 0.20s">
-      <div class="card-header">
-        <div class="card-icon">🔗</div>
-        <div class="card-title">Linked Lists</div>
-        <span class="topic-count">16 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Singly linked list — insert/delete/traverse</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Doubly linked list basics</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Reverse a linked list</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Detect cycle (Floyd's algorithm)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Find middle of linked list</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Merge two sorted linked lists</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Remove Nth node from end</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Remove duplicates from LL</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Intersection of two linked lists</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Palindrome linked list</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Add two numbers (LL form)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Flatten a multilevel linked list</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Circular linked list</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Rotate a linked list</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Sort a linked list (merge sort)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">LRU Cache (LL + HashMap)</span><span class="tag tag-low">LOW</span></div>
-      </div>
-    </div>
-
-    <!-- 5. Stack & Queue -->
-    <div class="card" style="--card-accent: #06d6a0; animation-delay: 0.25s">
-      <div class="card-header">
-        <div class="card-icon">📚</div>
-        <div class="card-title">Stack & Queue</div>
-        <span class="topic-count">14 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Stack using array / linked list</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Queue using array / linked list</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Implement stack using queues</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Implement queue using stacks</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Valid parentheses / bracket matching</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Next greater element</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Largest rectangle in histogram</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Evaluate postfix expression</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Min stack (getMin in O(1))</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Circular queue</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Deque (double-ended queue)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Sliding window maximum (monotonic deque)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Stock span problem</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Celebrity problem</span><span class="tag tag-low">LOW</span></div>
-      </div>
-    </div>
-
-    <!-- 6. Hashing -->
-    <div class="card" style="--card-accent: #ef476f; animation-delay: 0.30s">
-      <div class="card-header">
-        <div class="card-icon">#️⃣</div>
-        <div class="card-title">Hashing</div>
-        <span class="topic-count">10 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">HashMap / HashSet basics</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Frequency counting using hash map</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Two sum using hash map</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Group anagrams</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Subarray with zero sum</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Longest subarray with equal 0s and 1s</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Count distinct elements in window</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">4-sum / 3-sum problem</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Check if array can be divided into pairs</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Longest consecutive sequence</span><span class="tag tag-med">MED</span></div>
-      </div>
-    </div>
-
-    <!-- 7. Trees -->
-    <div class="card" style="--card-accent: #00e5c3; animation-delay: 0.35s">
-      <div class="card-header">
-        <div class="card-icon">🌳</div>
-        <div class="card-title">Trees (Binary Tree & BST)</div>
-        <span class="topic-count">20 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Tree traversals — Inorder, Preorder, Postorder</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Level order traversal (BFS)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Height/depth of binary tree</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Count nodes in a tree</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Check if tree is balanced</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Mirror / invert a binary tree</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Check if two trees are identical</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Diameter of a binary tree</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Lowest common ancestor (LCA)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Root to leaf path sum</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Max path sum in binary tree</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Zigzag level order traversal</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">BST — insert, delete, search</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Validate BST</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Inorder successor/predecessor in BST</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Kth smallest/largest in BST</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Convert sorted array to BST</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Construct tree from traversals</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Boundary traversal of tree</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Serialize & deserialize tree</span><span class="tag tag-low">LOW</span></div>
-      </div>
-    </div>
-
-    <!-- 8. Graphs -->
-    <div class="card" style="--card-accent: #ff6b35; animation-delay: 0.40s">
-      <div class="card-header">
-        <div class="card-icon">🕸️</div>
-        <div class="card-title">Graphs</div>
-        <span class="topic-count">16 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Graph representation — Adj. list & matrix</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">BFS traversal</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">DFS traversal</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Detect cycle in undirected graph</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Detect cycle in directed graph</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Topological sort (Kahn's & DFS)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Connected components</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Shortest path — BFS (unweighted)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Dijkstra's algorithm</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Bellman-Ford algorithm (concept)</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Floyd-Warshall (concept)</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Number of islands (grid BFS/DFS)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Bipartite graph check</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Minimum spanning tree (Prim's/Kruskal's concept)</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Disjoint Set Union (DSU)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Flood fill algorithm</span><span class="tag tag-med">MED</span></div>
-      </div>
-    </div>
-
-    <!-- 9. Recursion & Backtracking -->
-    <div class="card" style="--card-accent: #7c6bff; animation-delay: 0.45s">
-      <div class="card-header">
-        <div class="card-icon">🔄</div>
-        <div class="card-title">Recursion & Backtracking</div>
-        <span class="topic-count">12 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Recursion basics & base cases</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Factorial & Fibonacci (recursive)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Tower of Hanoi</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Power function (fast exponentiation)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Subsets / Power set generation</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Permutations of a string/array</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Combinations (nCr)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">N-Queens problem</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Rat in a maze</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Sudoku solver</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Word search in grid</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Palindrome partitioning</span><span class="tag tag-low">LOW</span></div>
-      </div>
-    </div>
-
-    <!-- 10. Dynamic Programming -->
-    <div class="card" style="--card-accent: #ffd166; animation-delay: 0.50s">
-      <div class="card-header">
-        <div class="card-icon">💡</div>
-        <div class="card-title">Dynamic Programming</div>
-        <span class="topic-count">18 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Memoization vs Tabulation concept</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Fibonacci using DP</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">0/1 Knapsack problem</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Unbounded knapsack</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Subset sum problem</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Coin change (min coins)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Longest Common Subsequence (LCS)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Longest Increasing Subsequence (LIS)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Edit distance (Levenshtein)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Minimum path sum in grid</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Unique paths in grid</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Rod cutting problem</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Matrix chain multiplication (concept)</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Longest palindromic subsequence</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Word break problem</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Egg drop problem</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Partition equal subset sum</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">House robber (adjacent elements)</span><span class="tag tag-med">MED</span></div>
-      </div>
-    </div>
-
-    <!-- 11. Heap / Priority Queue -->
-    <div class="card" style="--card-accent: #06d6a0; animation-delay: 0.55s">
-      <div class="card-header">
-        <div class="card-icon">⛰️</div>
-        <div class="card-title">Heap / Priority Queue</div>
-        <span class="topic-count">8 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Min-Heap & Max-Heap concepts</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Heapify & heap operations</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Kth largest element</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Top K frequent elements</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Merge K sorted arrays/lists</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Running median (two heaps)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Task scheduler</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Sort a nearly sorted array</span><span class="tag tag-low">LOW</span></div>
-      </div>
-    </div>
-
-    <!-- 12. Greedy -->
-    <div class="card" style="--card-accent: #ef476f; animation-delay: 0.60s">
-      <div class="card-header">
-        <div class="card-icon">🤑</div>
-        <div class="card-title">Greedy Algorithms</div>
-        <span class="topic-count">9 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Activity selection problem</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Fractional knapsack</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Job scheduling with deadlines</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Minimum number of coins (greedy)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Jump game (can reach end?)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Minimum platforms (trains)</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Huffman encoding concept</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Assign cookies (LeetCode)</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Largest number from array digits</span><span class="tag tag-med">MED</span></div>
-      </div>
-    </div>
-
-    <!-- 13. Matrix/2D Arrays -->
-    <div class="card" style="--card-accent: #00e5c3; animation-delay: 0.65s">
-      <div class="card-header">
-        <div class="card-icon">🔲</div>
-        <div class="card-title">Matrix / 2D Arrays</div>
-        <span class="topic-count">9 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Matrix traversal (row, column, diagonal)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Transpose of a matrix</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Rotate matrix 90 degrees</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Spiral order traversal</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Search in a row & column sorted matrix</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Set matrix zeroes</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Pascal's triangle</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Word search in 2D grid</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Boolean matrix — row/col zeros</span><span class="tag tag-low">LOW</span></div>
-      </div>
-    </div>
-
-    <!-- 14. Bit Manipulation -->
-    <div class="card" style="--card-accent: #7c6bff; animation-delay: 0.70s">
-      <div class="card-header">
-        <div class="card-icon">⚙️</div>
-        <div class="card-title">Bit Manipulation</div>
-        <span class="topic-count">9 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">AND, OR, XOR, NOT, Shifts basics</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Check if number is power of 2</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Count set bits (Brian Kernighan)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Find the single non-duplicate (XOR)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Swap two numbers without temp</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Find two non-repeating elements</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Set/unset/toggle a bit</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Reverse bits of a number</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Subsets using bitmask</span><span class="tag tag-low">LOW</span></div>
-      </div>
-    </div>
-
-    <!-- 15. Maths -->
-    <div class="card" style="--card-accent: #ffd166; animation-delay: 0.75s">
-      <div class="card-header">
-        <div class="card-icon">🧮</div>
-        <div class="card-title">Mathematical Concepts</div>
-        <span class="topic-count">12 topics</span>
-      </div>
-      <div class="card-body">
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">GCD & LCM (Euclidean algorithm)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Prime check (trial division)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Sieve of Eratosthenes</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Reverse a number / Palindrome number</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Armstrong number</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Count digits, sum of digits</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Factorial (iterative & recursive)</span><span class="tag tag-high">HIGH</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Modular arithmetic & overflow handling</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Power (x^n) — fast exponentiation</span><span class="tag tag-med">MED</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Catalan numbers (concept)</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">nCr with modulo</span><span class="tag tag-low">LOW</span></div>
-        <div class="topic-item"><div class="dot"></div><span class="topic-name">Perfect number check</span><span class="tag tag-low">LOW</span></div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="footer">
-    <p>Compiled for Service Level (Low–Mid) Company Interviews &nbsp;·&nbsp; Focus on HIGH priority topics first</p>
-  </div>
-
-</div>
 </body>
+
 </html>
